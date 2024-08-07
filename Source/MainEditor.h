@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MainProcessor.h"
+#include <juce_audio_utils/juce_audio_utils.h>
 
 //==============================================================================
 class MainEditor final : public juce::AudioProcessorEditor
@@ -14,9 +15,8 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    MainProcessor& processorRef;
+    MainProcessor& processor;
+    juce::MPEKeyboardComponent keyboardComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainEditor)
 };

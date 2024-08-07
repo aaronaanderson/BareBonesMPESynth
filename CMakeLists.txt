@@ -27,6 +27,10 @@ target_sources(MPESynth
         Source/MainEditor.cpp
         Source/MainProcessor.cpp)
 
+set_target_properties(MPESynth PROPERTIES 
+    CXX_STANDARD 17
+    COMPILE_WARNING_AS_ERROR ON
+)
 
 target_compile_definitions(MPESynth
     PUBLIC

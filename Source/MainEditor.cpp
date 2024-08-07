@@ -3,11 +3,13 @@
 
 //==============================================================================
 MainEditor::MainEditor (MainProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p)
+    : AudioProcessorEditor (&p), processor (p), 
+      keyboardComponent (processor.getInstrument(), juce::MPEKeyboardComponent::Orientation::horizontalKeyboard)
 {
-    juce::ignoreUnused (processorRef);
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+
+    addAndMakeVisible (keyboardComponent);
+
+    setResizable (true, false);
     setSize (400, 300);
 }
 
@@ -18,12 +20,10 @@ MainEditor::~MainEditor()
 //==============================================================================
 void MainEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    auto b = getLocalBounds();
 
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    keyboardComponent.setBounds (b.removeFromBottom (b.getHeight() / 2));
 }
 
 void MainEditor::resized()
