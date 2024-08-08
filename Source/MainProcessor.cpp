@@ -4,7 +4,8 @@
 //==============================================================================
 MainProcessor::MainProcessor()
      : AudioProcessor (BusesProperties().withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
-       instrument (juce::MPEZone (juce::MPEZone::Type::lower, 15))
+       instrument (juce::MPEZone (juce::MPEZone::Type::lower, 15)), 
+       fmSynth (instrument)
 {}
 MainProcessor::~MainProcessor() {}
 //==============================================================================
@@ -21,15 +22,10 @@ void MainProcessor::changeProgramName (int index, const juce::String& newName) {
 //==============================================================================
 void MainProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    juce::ignoreUnused (sampleRate, samplesPerBlock);
+    juce::ignoreUnused (samplesPerBlock);
+    fmSynth.setCurrentPlaybackSampleRate (sampleRate);
 }
-void MainProcessor::releaseResources()
-{
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-}
+void MainProcessor::releaseResources() {}
 bool MainProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
@@ -68,6 +64,7 @@ void MainProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (auto midiEvent : midiMessages)
         instrument.processNextMidiEvent (midiEvent.getMessage()); 
 
+    fmSynth.renderNextBlock (buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================

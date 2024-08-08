@@ -10,7 +10,7 @@ MainEditor::MainEditor (MainProcessor& p)
     addAndMakeVisible (keyboardComponent);
 
     setResizable (true, false);
-    setSize (400, 300);
+    setSize (800, 300);
 }
 
 MainEditor::~MainEditor()
@@ -22,8 +22,7 @@ void MainEditor::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     auto b = getLocalBounds();
-
-    keyboardComponent.setBounds (b.removeFromBottom (b.getHeight() / 2));
+    keyboardComponent.setBounds (b);
 }
 
 void MainEditor::resized()
