@@ -66,23 +66,10 @@ void MainProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     fmSynth.renderNextBlock (buffer, midiMessages, 0, buffer.getNumSamples());
 }
-
 //==============================================================================
 bool MainProcessor::hasEditor() const { return true; }
 juce::AudioProcessorEditor* MainProcessor::createEditor() { return new MainEditor (*this); }
 //==============================================================================
-void MainProcessor::getStateInformation (juce::MemoryBlock& destData)
-{
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-    juce::ignoreUnused (destData);
-}
-
-void MainProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-    juce::ignoreUnused (data, sizeInBytes);
-}
+void MainProcessor::getStateInformation (juce::MemoryBlock& destData) { juce::ignoreUnused (destData); }
+void MainProcessor::setStateInformation (const void* data, int sizeInBytes) { juce::ignoreUnused (data, sizeInBytes); }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){ return new MainProcessor(); }

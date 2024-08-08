@@ -4,9 +4,6 @@
 
 class FMSynthVoice : public juce::MPESynthesiserVoice
 {
-    /** Called by the MPESynthesiser to let the voice know that a new note has started on it.
-        This will be called during the rendering callback, so must be fast and thread-safe.
-    */
     void setCurrentSampleRate (double newRate) override 
     {
         if (!juce::approximatelyEqual (currentSampleRate, newRate))
@@ -36,11 +33,9 @@ class FMSynthVoice : public juce::MPESynthesiserVoice
             clearCurrentNote();
             return;
         }
-
         amplitude.setTargetValue (0.0f);
         readyForRemoval = true;
     }
-
     void notePressureChanged() override
     {
         auto note = getCurrentlyPlayingNote();
@@ -52,7 +47,6 @@ class FMSynthVoice : public juce::MPESynthesiserVoice
         carrierFrequency.setTargetValue (static_cast<float> (note.getFrequencyInHertz()));
         modulatorFrequency.setTargetValue (static_cast<float> (note.getFrequencyInHertz()));
     }
-
     void noteTimbreChanged() override 
     {
         auto note = getCurrentlyPlayingNote();
